@@ -16,6 +16,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.annotations.Until
+import io.ionic.portalsecommerce.ui.cart.Cart
+import io.ionic.portalsecommerce.ui.help.Help
 import io.ionic.portalsecommerce.ui.home.HomeSections
 import io.ionic.portalsecommerce.ui.home.addHomeGraph
 import io.ionic.portalsecommerce.ui.navigation.MainDestinations
@@ -57,7 +59,10 @@ private fun NavGraphBuilder.ecommerceNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val productId = arguments.getLong(MainDestinations.PRODUCT_ID_KEY)
-        ProductDetail(productId, upPress)
+        ProductDetail(productId, upPress, onNavigateRoute)
+    }
+    composable(MainDestinations.HELP_ROUTE) { from ->
+        Help(upPress)
     }
 }
 

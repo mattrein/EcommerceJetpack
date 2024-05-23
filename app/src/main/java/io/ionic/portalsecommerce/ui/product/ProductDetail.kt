@@ -16,9 +16,10 @@ import io.ionic.portalsecommerce.ui.shop.ProductList
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @Composable
-fun ProductDetail(snackId: Long, upPress: () -> Unit) {
+fun ProductDetail(snackId: Long, upPress: () -> Unit, onNavigateRoute: (String) -> Unit) {
     Scaffold (
-        topBar = { EcommerceTopAppBar(title = "Product Name") },
+        topBar = { EcommerceTopAppBar(title = "Product Name", upPress, actionPress =
+            {  -> onNavigateRoute("help") }) },
     ) {
         paddingValues ->
         Column(
@@ -41,6 +42,6 @@ fun ProductDetail(snackId: Long, upPress: () -> Unit) {
 @Composable
 fun ProductDetailPreview() {
     PortalsEcommerceTheme {
-        ProductDetail(0, {})
+        ProductDetail(0, {}, {})
     }
 }

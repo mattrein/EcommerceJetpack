@@ -12,6 +12,8 @@ object MainDestinations {
     const val HOME_ROUTE = "home"
     const val PRODUCT_DETAIL_ROUTE = "product"
     const val PRODUCT_ID_KEY = "productId"
+    const val HELP_ROUTE = "help"
+
 }
 
 @Composable
