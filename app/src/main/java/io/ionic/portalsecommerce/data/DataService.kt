@@ -22,6 +22,11 @@ class DataService private constructor(val context: Context){
     fun getProducts(): ArrayList<Product> {
         return appData.products!!
     }
+
+    fun getProduct(id: Int): Product? {
+        val product = appData.products?.find {  it.id == id }
+        return product
+    }
 }
 
 

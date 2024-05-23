@@ -55,10 +55,10 @@ private fun NavGraphBuilder.ecommerceNavGraph(
     }
     composable(
         "${MainDestinations.PRODUCT_DETAIL_ROUTE}/{${MainDestinations.PRODUCT_ID_KEY}}",
-        arguments = listOf(navArgument(MainDestinations.PRODUCT_ID_KEY) { type = NavType.LongType })
+        arguments = listOf(navArgument(MainDestinations.PRODUCT_ID_KEY) { type = NavType.IntType })
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
-        val productId = arguments.getLong(MainDestinations.PRODUCT_ID_KEY)
+        val productId = arguments.getInt(MainDestinations.PRODUCT_ID_KEY)
         ProductDetail(productId, upPress, onNavigateRoute)
     }
     composable(MainDestinations.HELP_ROUTE) { from ->

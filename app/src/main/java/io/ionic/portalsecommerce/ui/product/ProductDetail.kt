@@ -1,36 +1,91 @@
 package io.ionic.portalsecommerce.ui.product
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import io.ionic.portalsecommerce.R
+import io.ionic.portalsecommerce.data.DataService
 import io.ionic.portalsecommerce.ui.components.EcommerceBottomAppBar
 import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
 import io.ionic.portalsecommerce.ui.shop.ProductList
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @Composable
-fun ProductDetail(snackId: Long, upPress: () -> Unit, onNavigateRoute: (String) -> Unit) {
+fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String) -> Unit) {
+    val context = LocalContext.current
+
+    val product = DataService.getInstance(context).getProduct(productId)!!
+
+
+    val rName = product.image?.replace("-","_")?.replace(".png","")
+    val drawableId = remember(rName) {
+        val resId by derivedStateOf {
+            context.resources.getIdentifier(
+                rName,
+                "drawable",
+                context.packageName
+            )
+        }
+        if (resId != 0) resId else R.drawable.not_found
+    }
     Scaffold (
-        topBar = { EcommerceTopAppBar(title = "Product Name", upPress, actionPress =
+        topBar = { EcommerceTopAppBar(title = product.title!!, upPress, actionPress =
             {  -> onNavigateRoute("help") }) },
     ) {
         paddingValues ->
         Column(
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
+                .fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Image")
-            Text(text = "Product Name")
-            Text(text = "Product Description Product Description Product Description Product Description Product Description Product Description Product Description Product Description ")
-            Button(onClick = { /*TODO*/ }) {
+            Column{
+                Image(
+                    painter = painterResource(drawableId),
+                    contentDescription = product.title,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier.fillMaxWidth())
+                Text(
+                    text = product.title!!,
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .padding(10.dp)
+                )
+                Text(
+                    text = product.description!!,
+                    modifier = Modifier
+                        .padding(10.dp)
+                )
+            }
+
+            Button(
+                onClick = { upPress() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp)
+                    .padding(bottom = 20.dp)
+            ) {
                 Text(text = "Add to Cart")
             }
         }
@@ -42,6 +97,6 @@ fun ProductDetail(snackId: Long, upPress: () -> Unit, onNavigateRoute: (String) 
 @Composable
 fun ProductDetailPreview() {
     PortalsEcommerceTheme {
-        ProductDetail(0, {}, {})
+        ProductDetail(1, {}, {})
     }
 }
