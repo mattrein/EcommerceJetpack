@@ -8,5 +8,10 @@ data class User (
     var email: String? = null,
     var image: String? = null,
     var addresses: ArrayList<Address>? = null,
-    var creditCards: ArrayList<CreditCard>? = null
-)
+    var creditCards: ArrayList<CreditCard>? = null,
+) {
+    fun fullName(): String {
+        return "${firstName} ${lastName}"
+    }
+
+}

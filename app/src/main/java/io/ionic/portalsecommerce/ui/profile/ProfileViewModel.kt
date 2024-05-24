@@ -17,6 +17,7 @@ class ProfileViewModel(context: Context): ViewModel() {
     private val _user = mutableStateOf(savedUser)
     val user: State<User> get() = _user
 
+    val adddresses = _user.value.addresses!!
     fun onFirstNameChange(newFirstName: String) {
         _user.value = _user.value.copy(firstName = newFirstName)
         DataService.getInstance(context).setUser(_user.value)

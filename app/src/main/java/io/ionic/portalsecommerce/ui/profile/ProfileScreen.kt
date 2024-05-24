@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
@@ -36,6 +38,10 @@ import io.ionic.portalsecommerce.ui.components.EcommerceBottomAppBar
 import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import io.ionic.portalsecommerce.data.model.Address
+import io.ionic.portalsecommerce.ui.components.AddressListItem
+import io.ionic.portalsecommerce.ui.components.ProductTile
+
 @Composable
 fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel = ProfileViewModel(
     LocalContext.current)) {
@@ -55,7 +61,7 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .padding(paddingValues)
+                    .padding(20.dp)
                     .fillMaxWidth()
                     .clickable { }
             ) {
@@ -96,9 +102,22 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
                 label = { Text("Email") },
                 singleLine = true
             )
+            Column(
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(20.dp)
+            ) {
+                Text(text = "Adresses", style = MaterialTheme.typography.headlineSmall)
+                Column {
+                    viewModel.adddresses.forEach { address ->
+                        AddressListItem(user.fullName(),address)
+
+                    }
+                }
+
+            }
+
         }
-
-
     }
 }
 
