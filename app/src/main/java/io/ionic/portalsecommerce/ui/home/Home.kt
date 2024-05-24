@@ -5,15 +5,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.ShoppingCart
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import io.ionic.portalsecommerce.R
 import io.ionic.portalsecommerce.ui.cart.Cart
-import io.ionic.portalsecommerce.ui.profile.Profile
+import io.ionic.portalsecommerce.ui.profile.ProfileScreen
 import io.ionic.portalsecommerce.ui.shop.Shop
 
 enum class HomeSections(
@@ -38,6 +36,6 @@ fun NavGraphBuilder.addHomeGraph(
         Cart(onNavigateRoute)
     }
     composable(HomeSections.PROFILE.route) { from ->
-        Profile(onNavigateRoute)
+        ProfileScreen(onNavigateRoute)
     }
 }

@@ -1,9 +1,11 @@
 package io.ionic.portalsecommerce.data
 
 import android.content.Context
-import io.ionic.portalsecommerce.data.model.AppData
 import com.google.gson.Gson
+import io.ionic.portalsecommerce.data.model.AppData
 import io.ionic.portalsecommerce.data.model.Product
+import io.ionic.portalsecommerce.data.model.User
+
 
 class DataService private constructor(val context: Context){
 
@@ -16,6 +18,7 @@ class DataService private constructor(val context: Context){
             }
         }
     }
+
     val fileInString: String = context.assets.open("data.json").bufferedReader().use { it.readText() }
     private var appData: AppData = Gson().fromJson(fileInString, AppData::class.java)
 
@@ -26,6 +29,14 @@ class DataService private constructor(val context: Context){
     fun getProduct(id: Int): Product? {
         val product = appData.products?.find {  it.id == id }
         return product
+    }
+
+    fun getUser(): User? {
+        return appData.user
+    }
+
+    fun setUser(user: User?) {
+        appData.user = user
     }
 }
 
