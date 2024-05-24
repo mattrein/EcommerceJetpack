@@ -3,6 +3,7 @@ package io.ionic.portalsecommerce.ui.profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +12,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -40,6 +44,7 @@ import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.ionic.portalsecommerce.data.model.Address
 import io.ionic.portalsecommerce.ui.components.AddressListItem
+import io.ionic.portalsecommerce.ui.components.CreditCardListItem
 import io.ionic.portalsecommerce.ui.components.ProductTile
 
 @Composable
@@ -56,6 +61,7 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
         Column (
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
         ) {
             Box(
@@ -107,14 +113,48 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
                     .align(Alignment.Start)
                     .padding(20.dp)
             ) {
-                Text(text = "Adresses", style = MaterialTheme.typography.headlineSmall)
-                Column {
+                Text(
+                    text = "Adresses",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                )
+                Column (
+                    modifier = Modifier.padding(bottom = 30.dp)
+                ) {
                     viewModel.adddresses.forEach { address ->
                         AddressListItem(user.fullName(),address)
-
+                    }
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier
+                            .padding(top = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(text = "New Address")
                     }
                 }
-
+                Text(
+                    text = "Payment Methods",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                )
+                Column (
+                    modifier = Modifier.padding(bottom = 30.dp)
+                ) {
+                    viewModel.creditCards.forEach { creditCard ->
+                        CreditCardListItem(creditCard)
+                    }
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier
+                            .padding(top = 10.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Text(text = "New Payment Method")
+                    }
+                }
             }
 
         }
