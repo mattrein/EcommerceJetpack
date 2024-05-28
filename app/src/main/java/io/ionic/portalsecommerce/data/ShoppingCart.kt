@@ -69,4 +69,12 @@ class ShoppingCart private constructor(val context: Context){
             contents.clear()
         }
     }
+
+    fun getTotalPriceOfProductsInCart(): Float {
+        var sum = 0f
+        for ((key, value) in contents) {
+            sum += key.price * value
+        }
+        return sum
+    }
 }

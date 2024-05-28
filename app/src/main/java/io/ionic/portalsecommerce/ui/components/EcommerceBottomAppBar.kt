@@ -45,14 +45,14 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
         )
         NavigationBarItem(
             icon = {
-                BadgedBox(badge = {
-                    val itemCount = ShoppingCart.getInstance(context).getUniqueItemCount()
-                    if(itemCount > 0) {
-                        Badge{Text(text = itemCount.toString())}
-                    }
-                }) {
-                    Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart")
-                }
+                        BadgedBox(badge = {
+                            val itemCount = ShoppingCart.getInstance(context).getUniqueItemCount()
+                            if(itemCount > 0) {
+                                Badge{Text(text = itemCount.toString())}
+                            }
+                        }) {
+                            Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart")
+                        }
                    },
 //            label = { Text("Cart") },
             selected = "home/cart" == currentRoute,

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,8 +25,12 @@ import androidx.compose.ui.unit.dp
 import io.ionic.portalsecommerce.R
 import io.ionic.portalsecommerce.data.DataService
 import io.ionic.portalsecommerce.data.ShoppingCart
+import io.ionic.portalsecommerce.ui.components.EcommerceBottomAppBar
 import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
+import java.text.NumberFormat
+import java.util.Currency
+import java.util.Locale
 
 @Composable
 fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String) -> Unit) {
@@ -45,15 +51,23 @@ fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String)
         }
         if (resId != 0) resId else R.drawable.not_found
     }
+
+    val format: NumberFormat = NumberFormat.getCurrencyInstance()
+    format.setMaximumFractionDigits(0)
+    format.setCurrency(Currency.getInstance(Locale.US))
     Scaffold (
         topBar = { EcommerceTopAppBar(title = product.title!!, upPress, actionPress =
             {  -> onNavigateRoute("help") }) },
+        bottomBar = { EcommerceBottomAppBar(currentRoute = "home/shop") {
+            
+        }}
     ) {
         paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxHeight(),
+                .fillMaxHeight()
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column{
@@ -65,6 +79,12 @@ fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String)
                 Text(
                     text = product.title!!,
                     style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier
+                        .padding(10.dp)
+                )
+                Text(
+                    text = format.format(product.price!!),
+                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier
                         .padding(10.dp)
                 )
