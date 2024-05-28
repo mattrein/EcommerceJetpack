@@ -50,7 +50,8 @@ android {
 }
 
 dependencies {
-//    implementation(libs.compose.preview.renderer)
+implementation(libs.engage.core)
+    //    implementation(libs.compose.preview.renderer)
     val nav_version = "2.7.7"
 
     implementation(libs.androidx.core.ktx)

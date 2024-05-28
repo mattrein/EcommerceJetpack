@@ -4,7 +4,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.NavigationBar
@@ -15,11 +18,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import io.ionic.portalsecommerce.data.DataService
+import io.ionic.portalsecommerce.data.ShoppingCart
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Unit) {
+    val context = LocalContext.current
+
+    val cart = ShoppingCart.getInstance(context).getCart()!!
 
     fun onClick (route: String){
         onNavigateRoute(route)
@@ -34,7 +44,16 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
             }
         )
         NavigationBarItem(
-            icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart") },
+            icon = {
+                BadgedBox(badge = {
+                    val itemCount = ShoppingCart.getInstance(context).getUniqueItemCount()
+                    if(itemCount > 0) {
+                        Badge{Text(text = itemCount.toString())}
+                    }
+                }) {
+                    Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart")
+                }
+                   },
 //            label = { Text("Cart") },
             selected = "home/cart" == currentRoute,
             onClick = {

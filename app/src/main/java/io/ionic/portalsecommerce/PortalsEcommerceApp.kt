@@ -16,6 +16,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.annotations.Until
+import io.ionic.portalsecommerce.data.ShoppingCart
 import io.ionic.portalsecommerce.data.model.Address
 import io.ionic.portalsecommerce.ui.address.AddressScreen
 import io.ionic.portalsecommerce.ui.cart.Cart
@@ -31,6 +32,7 @@ import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @Composable
 fun PortalsEcommerceApp() {
+
     PortalsEcommerceTheme {
         val ecommerceNavController = rememberEcommerceNavController()
         NavHost(

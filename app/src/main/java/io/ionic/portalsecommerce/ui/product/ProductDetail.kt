@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -18,7 +15,6 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -26,9 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.ionic.portalsecommerce.R
 import io.ionic.portalsecommerce.data.DataService
-import io.ionic.portalsecommerce.ui.components.EcommerceBottomAppBar
+import io.ionic.portalsecommerce.data.ShoppingCart
 import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
-import io.ionic.portalsecommerce.ui.shop.ProductList
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @Composable
@@ -36,6 +31,7 @@ fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String)
     val context = LocalContext.current
 
     val product = DataService.getInstance(context).getProduct(productId)!!
+    val cart = ShoppingCart.getInstance(context).getCart()!!
 
 
     val rName = product.image?.replace("-","_")?.replace(".png","")
@@ -80,7 +76,10 @@ fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String)
             }
 
             Button(
-                onClick = { upPress() },
+                onClick = {
+                    ShoppingCart.getInstance(context).addItem(product)
+                    upPress()
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(10.dp)
