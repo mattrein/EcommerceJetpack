@@ -35,7 +35,7 @@ import io.ionic.portalsecommerce.ui.components.EcommerceBottomAppBar
 import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 import io.ionic.portalsecommerce.ui.address.AddressListItem
-import io.ionic.portalsecommerce.ui.components.CreditCardListItem
+import io.ionic.portalsecommerce.ui.payment.CreditCardListItem
 import io.ionic.portalsecommerce.ui.navigation.MainDestinations
 
 @Composable
@@ -119,8 +119,8 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
                     viewModel.addresses.forEach { address ->
                         AddressListItem(
                             user.fullName(),address,
-                            { -> onNavigateRoute("${MainDestinations.ADDRESS_ROUTE}/${address.id}")
-                    })
+                            { onNavigateRoute("${MainDestinations.ADDRESS_ROUTE}/${address.id}") }
+                        )
                     }
                     Button(
                         onClick = { onNavigateRoute("${MainDestinations.ADDRESS_ROUTE}/${0}") },
@@ -141,7 +141,9 @@ fun ProfileScreen(onNavigateRoute: (String) -> Unit, viewModel: ProfileViewModel
                     modifier = Modifier.padding(bottom = 30.dp)
                 ) {
                     viewModel.creditCards.forEach { creditCard ->
-                        CreditCardListItem(creditCard)
+                        CreditCardListItem(creditCard,
+                            { onNavigateRoute("${MainDestinations.PAYMENT_ROUTE}/${creditCard.id}") }
+                        )
                     }
                     Button(
                         onClick = { onNavigateRoute("${MainDestinations.PAYMENT_ROUTE}/${0}")  },

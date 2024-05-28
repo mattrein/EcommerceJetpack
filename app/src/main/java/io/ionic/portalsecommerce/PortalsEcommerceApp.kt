@@ -79,7 +79,7 @@ private fun NavGraphBuilder.ecommerceNavGraph(
     ) { backStackEntry ->
         val arguments = requireNotNull(backStackEntry.arguments)
         val paymentId = arguments.getInt(MainDestinations.PAYMENT_ID_KEY)
-        PaymentScreen(onNavigateRoute = onNavigateRoute, upPress = upPress)
+        PaymentScreen(paymentId, onNavigateRoute, upPress)
     }
     composable(MainDestinations.HELP_ROUTE) { from ->
         Help(upPress)

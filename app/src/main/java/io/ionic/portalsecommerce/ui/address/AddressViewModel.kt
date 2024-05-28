@@ -45,6 +45,12 @@ class AddressViewModel(context: Context, addressId: Int): ViewModel() {
             _adddress.value.id = _user.value.addresses!!.count() + 1
             _user.value.addresses!!.add(_adddress.value)
         }
-
+        if(_adddress.value.preferred) {
+            for (address in _user.value.addresses!!) {
+                if(address.id != _adddress.value.id) {
+                    address.preferred = false
+                }
+            }
+        }
     }
 }
