@@ -1,15 +1,13 @@
-package io.ionic.portalsecommerce.ui.profile
+package io.ionic.portalsecommerce.ui.payment
 
 import android.content.Context
-import android.provider.ContactsContract.Data
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import io.ionic.portalsecommerce.data.DataService
 import io.ionic.portalsecommerce.data.model.User
 
-class ProfileViewModel(context: Context): ViewModel() {
+class PaymentViewModel(context: Context): ViewModel() {
 
     private val context = context
     private val savedUser = DataService.getInstance(context).getUser()!!
@@ -17,7 +15,7 @@ class ProfileViewModel(context: Context): ViewModel() {
     private val _user = mutableStateOf(savedUser)
     val user: State<User> get() = _user
 
-    val addresses = _user.value.addresses!!
+    val adddresses = _user.value.addresses!!
     val creditCards = _user.value.creditCards!!
     fun onFirstNameChange(newFirstName: String) {
         _user.value = _user.value.copy(firstName = newFirstName)

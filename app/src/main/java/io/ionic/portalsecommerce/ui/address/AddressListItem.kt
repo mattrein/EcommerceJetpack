@@ -1,7 +1,5 @@
-package io.ionic.portalsecommerce.ui.components
+package io.ionic.portalsecommerce.ui.address
 
-import android.widget.Space
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -10,14 +8,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import io.ionic.portalsecommerce.data.model.Address
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @Composable
-fun AddressListItem (fullName: String, address: Address) {
+fun AddressListItem (fullName: String, address: Address, onEdit: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,11 +31,11 @@ fun AddressListItem (fullName: String, address: Address) {
                     modifier = Modifier.weight(1f)
                 )
                 if (address.preferred) {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {  }) {
                         Text(text = "Default")
                     }
                 }
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = { onEdit() }) {
                     Text(text = "Edit")
                 }
             }
@@ -57,6 +54,6 @@ fun AddressListItemPreview() {
         address.city = "townville AA 55555"
         address.state = "AA"
         address.postal = "55555"
-        AddressListItem("Mary Jane", address)
+        AddressListItem("Mary Jane", address, {})
     }
 }

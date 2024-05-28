@@ -16,12 +16,16 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.annotations.Until
+import io.ionic.portalsecommerce.data.model.Address
+import io.ionic.portalsecommerce.ui.address.AddressScreen
 import io.ionic.portalsecommerce.ui.cart.Cart
 import io.ionic.portalsecommerce.ui.help.Help
 import io.ionic.portalsecommerce.ui.home.HomeSections
 import io.ionic.portalsecommerce.ui.home.addHomeGraph
 import io.ionic.portalsecommerce.ui.navigation.MainDestinations
 import io.ionic.portalsecommerce.ui.navigation.rememberEcommerceNavController
+import io.ionic.portalsecommerce.ui.payment.PaymentScreen
+import io.ionic.portalsecommerce.ui.payment.PaymentScreenPreview
 import io.ionic.portalsecommerce.ui.product.ProductDetail
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
@@ -60,6 +64,22 @@ private fun NavGraphBuilder.ecommerceNavGraph(
         val arguments = requireNotNull(backStackEntry.arguments)
         val productId = arguments.getInt(MainDestinations.PRODUCT_ID_KEY)
         ProductDetail(productId, upPress, onNavigateRoute)
+    }
+    composable(
+        "${MainDestinations.ADDRESS_ROUTE}/{${MainDestinations.ADDRESS_ID_KEY}}",
+        arguments = listOf(navArgument(MainDestinations.ADDRESS_ID_KEY) { type = NavType.IntType })
+    ) { backStackEntry ->
+        val arguments = requireNotNull(backStackEntry.arguments)
+        val addressId = arguments.getInt(MainDestinations.ADDRESS_ID_KEY)
+        AddressScreen(addressId, onNavigateRoute, upPress)
+    }
+    composable(
+        "${MainDestinations.PAYMENT_ROUTE}/{${MainDestinations.PAYMENT_ID_KEY}}",
+        arguments = listOf(navArgument(MainDestinations.PAYMENT_ID_KEY) { type = NavType.IntType })
+    ) { backStackEntry ->
+        val arguments = requireNotNull(backStackEntry.arguments)
+        val paymentId = arguments.getInt(MainDestinations.PAYMENT_ID_KEY)
+        PaymentScreen(onNavigateRoute = onNavigateRoute, upPress = upPress)
     }
     composable(MainDestinations.HELP_ROUTE) { from ->
         Help(upPress)

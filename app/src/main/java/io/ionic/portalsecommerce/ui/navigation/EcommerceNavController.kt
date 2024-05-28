@@ -13,7 +13,10 @@ object MainDestinations {
     const val PRODUCT_DETAIL_ROUTE = "product"
     const val PRODUCT_ID_KEY = "productId"
     const val HELP_ROUTE = "help"
-
+    const val ADDRESS_ROUTE = "address"
+    const val ADDRESS_ID_KEY = "addressId"
+    const val PAYMENT_ROUTE = "payment"
+    const val PAYMENT_ID_KEY = "paymentId"
 }
 
 @Composable
@@ -40,6 +43,12 @@ class EcommerceNavController(
         // In order to discard duplicated navigation events, we check the Lifecycle
         if (from.lifecycleIsResumed()) {
             navController.navigate("${MainDestinations.PRODUCT_DETAIL_ROUTE}/$productId")
+        }
+    }
+    fun navigateToAddressDetail(addressId: Int, from: NavBackStackEntry) {
+        // In order to discard duplicated navigation events, we check the Lifecycle
+        if (from.lifecycleIsResumed()) {
+            navController.navigate("${MainDestinations.ADDRESS_ROUTE}/$addressId")
         }
     }
 

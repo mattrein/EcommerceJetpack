@@ -27,7 +27,7 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
     NavigationBar {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Shop") },
-            label = { Text("Shop") },
+//            label = { Text("Shop") },
             selected = "home/shop" == currentRoute,
             onClick = {
                 onNavigateRoute("home/shop")
@@ -35,7 +35,7 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
         )
         NavigationBarItem(
             icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart") },
-            label = { Text("Cart") },
+//            label = { Text("Cart") },
             selected = "home/cart" == currentRoute,
             onClick = {
                 onNavigateRoute("home/cart")
@@ -43,7 +43,7 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
         )
         NavigationBarItem(
             icon = { Icon(Icons.Filled.AccountCircle, contentDescription = "Profile") },
-            label = { Text("Profile") },
+//            label = { Text("Profile") },
             selected = "home/profile" == currentRoute,
             onClick = {
                 onNavigateRoute("home/profile")
