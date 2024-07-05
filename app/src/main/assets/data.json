@@ -135,6 +135,14 @@
         "state": "WI",
         "postal": "53717",
         "preferred": true
+      },
+      {
+        "id": 2,
+        "street": "5678 Bright Drive",
+        "city": "Outerton",
+        "state": "WI",
+        "postal": "53717",
+        "preferred": false
       }
     ],
     "creditCards": [
@@ -146,6 +154,15 @@
         "expirationDate": "2025-06-31T11:59:59Z",
         "zip": "53717",
         "preferred": true
+      },
+      {
+        "id": 2,
+        "company": "Visa",
+        "number": "98293578923859853",
+        "cvv": "111",
+        "expirationDate": "2025-06-31T11:59:59Z",
+        "zip": "53717",
+        "preferred": false
       }
     ]
   }

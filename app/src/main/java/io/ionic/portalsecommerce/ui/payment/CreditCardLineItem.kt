@@ -25,7 +25,7 @@ fun CreditCardListItem (creditCard: CreditCard, onEdit: () -> Unit) {
             Row (
         ) {
             Text(
-                text = creditCard.number!!,
+                text = "${creditCard.company!!} ending in ${creditCard.number!!.takeLast(4)}",
                 modifier = Modifier
                     .height(50.dp)
                     .wrapContentHeight(Alignment.CenterVertically)
@@ -47,6 +47,7 @@ fun CreditCardListItemPreview() {
     PortalsEcommerceTheme {
         val creditCard = CreditCard()
         creditCard.id = 0
+        creditCard.company = "Visa"
         creditCard.number = "12345678900"
         CreditCardListItem(creditCard, {})
     }

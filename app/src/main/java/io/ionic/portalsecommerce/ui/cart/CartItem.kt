@@ -8,7 +8,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -23,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.ionic.portalsecommerce.R
+import io.ionic.portalsecommerce.data.ShoppingCart
 import io.ionic.portalsecommerce.data.model.Product
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 import java.text.NumberFormat
@@ -44,6 +53,8 @@ fun CartItem(product: Product, quantity: Int) {
         }
         if (resId != 0 ) resId else R.drawable.not_found
     }
+    val cart = ShoppingCart.getInstance(context)
+
     val format: NumberFormat = NumberFormat.getCurrencyInstance()
     format.setMaximumFractionDigits(0)
     format.setCurrency(Currency.getInstance(Locale.US))
@@ -73,8 +84,25 @@ fun CartItem(product: Product, quantity: Int) {
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Text(text = "Qty $quantity")
-                Text(text = format.format(product.price))
+                Row {
+                    IconButton(
+                      onClick = {
+                          cart.removeItem(product, 1)
+                                },
+                    ) {
+                        Icon(Icons.Filled.Remove, contentDescription = "Remove",)
+                    }
+                    Text(text = "Qty ${cart.contents[product]}", modifier = Modifier.padding(top = 10.dp))
+                    IconButton(
+                        onClick = {
+
+                            cart.addItem(product, 1)
+                        }
+                    ) {
+                        Icon(Icons.Filled.Add, contentDescription = "Add")
+                    }
+                }
+                Text(text = format.format(product.price), modifier = Modifier.padding(top = 10.dp))
             }
         }
     }

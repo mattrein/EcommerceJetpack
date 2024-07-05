@@ -4,17 +4,35 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -30,10 +48,12 @@ import io.ionic.portalsecommerce.ui.components.EcommerceTopAppBar
 import io.ionic.portalsecommerce.ui.components.ProductTile
 import io.ionic.portalsecommerce.ui.navigation.MainDestinations
 import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
+import kotlinx.coroutines.launch
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Cart(onNavigateRoute: (String) -> Unit) {
     val context = LocalContext.current
@@ -42,6 +62,11 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
     val format: NumberFormat = NumberFormat.getCurrencyInstance()
     format.setMaximumFractionDigits(0)
     format.setCurrency(Currency.getInstance(Locale.US))
+
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
+    var showBottomSheet by remember { mutableStateOf(false) }
+
     Scaffold (
         topBar = { EcommerceTopAppBar(title = "Cart") },
         bottomBar = { EcommerceBottomAppBar("home/cart", onNavigateRoute) }
@@ -75,6 +100,7 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
                     verticalArrangement = Arrangement.Top,
                     modifier = Modifier
                         .padding(20.dp)
+                        .fillMaxHeight()
                         .verticalScroll(rememberScrollState())
                 ){
                     Column (
@@ -115,14 +141,52 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
                             style = MaterialTheme.typography.headlineSmall)
                     }
                     Button(
-                        onClick = { },
+                        onClick = { showBottomSheet = true },
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text( text = "Checkout")
                     }
                 }
             }
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        showBottomSheet = false
+                    },
+                    sheetState = sheetState,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                ) {
+                    Row {
+                        TextButton(onClick = {
+                                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                    if (!sheetState.isVisible) {
+                                        showBottomSheet = false
+                                    }
+                                }
+                            }
+                            ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Back"
+                            )
+                        }
+                        Column (
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text("Checkout",
+                                modifier = Modifier
+                                    .offset(x= (-30).dp) )
+                        }
+                    }
 
+
+                    CheckoutScreen()
+
+                }
+            }
         }
     }
 }
