@@ -29,6 +29,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -67,6 +68,25 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
 
+
+    val viewContents = remember {
+        mutableStateOf(hashMapOf<Product, Int>())
+    }
+
+    viewContents.value = HashMap(ShoppingCart.getInstance(context).contents)
+
+    fun addItem(product: Product) {
+        cart.addItem(product)
+        viewContents.value = HashMap(ShoppingCart.getInstance(context).contents)
+    }
+
+    fun removeItem(product: Product) {
+        cart.removeItem(product)
+        viewContents.value = HashMap(ShoppingCart.getInstance(context).contents)
+    }
+
+
+
     Scaffold (
         topBar = { EcommerceTopAppBar(title = "Cart") },
         bottomBar = { EcommerceBottomAppBar("home/cart", onNavigateRoute) }
@@ -79,7 +99,7 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            if(cart.contents.size == 0) {
+            if(viewContents.value.size == 0) {
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ){
@@ -106,8 +126,9 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
                     Column (
                         modifier = Modifier.padding(bottom = 30.dp)
                     ) {
-                        cart.contents.forEach { cartItem ->
-                            CartItem(cartItem.key, cartItem.value)
+                        viewContents.value.forEach { cartItem ->
+                            CartItem(cartItem.key, cartItem.value, { -> addItem(cartItem.key)},
+                                { -> removeItem(cartItem.key) })
                         }
                     }
                     HorizontalDivider(color = MaterialTheme.colorScheme.primary, thickness = 1.dp, modifier = Modifier.padding(bottom = 20.dp))

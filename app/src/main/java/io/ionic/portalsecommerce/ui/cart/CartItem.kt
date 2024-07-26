@@ -39,7 +39,7 @@ import java.util.Currency
 import java.util.Locale
 
 @Composable
-fun CartItem(product: Product, quantity: Int) {
+fun CartItem(product: Product, quantity: Int, addItem: () -> Unit, removeItem: () -> Unit) {
 
     val context = LocalContext.current
     val rName = product.image?.replace("-","_")?.replace(".png","")
@@ -86,18 +86,13 @@ fun CartItem(product: Product, quantity: Int) {
             ) {
                 Row {
                     IconButton(
-                      onClick = {
-                          cart.removeItem(product, 1)
-                                },
+                      onClick = { removeItem() },
                     ) {
                         Icon(Icons.Filled.Remove, contentDescription = "Remove",)
                     }
-                    Text(text = "Qty ${cart.contents[product]}", modifier = Modifier.padding(top = 10.dp))
+                    Text(text = "Qty ${quantity}", modifier = Modifier.padding(top = 10.dp))
                     IconButton(
-                        onClick = {
-
-                            cart.addItem(product, 1)
-                        }
+                        onClick = { addItem() }
                     ) {
                         Icon(Icons.Filled.Add, contentDescription = "Add")
                     }
@@ -109,12 +104,12 @@ fun CartItem(product: Product, quantity: Int) {
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun CartItemPreview() {
-    val product = Product()
-    product.title = "Capacitor Snapback"
-    PortalsEcommerceTheme {
-        CartItem(product, 1)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun CartItemPreview() {
+//    val product = Product()
+//    product.title = "Capacitor Snapback"
+//    PortalsEcommerceTheme {
+//        CartItem(product, 1, {}. {})
+//    }
+//}
