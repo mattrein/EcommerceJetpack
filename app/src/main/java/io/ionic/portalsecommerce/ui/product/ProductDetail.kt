@@ -58,9 +58,7 @@ fun ProductDetail(productId: Int, upPress: () -> Unit, onNavigateRoute: (String)
     Scaffold (
         topBar = { EcommerceTopAppBar(title = product.title!!, upPress, actionPress =
             {  -> onNavigateRoute("help") }) },
-        bottomBar = { EcommerceBottomAppBar(currentRoute = "home/shop") {
-            
-        }}
+        bottomBar = { EcommerceBottomAppBar(currentRoute = "home/shop", onNavigateRoute) }
     ) {
         paddingValues ->
         Column(

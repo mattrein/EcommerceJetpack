@@ -72,8 +72,13 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
     val viewContents = remember {
         mutableStateOf(hashMapOf<Product, Int>())
     }
-
     viewContents.value = HashMap(ShoppingCart.getInstance(context).contents)
+
+    val badgeQuantity = remember {
+        mutableStateOf(0)
+    }
+    badgeQuantity.value = cart.getUniqueItemCount()
+
 
     fun addItem(product: Product) {
         cart.addItem(product)
@@ -83,13 +88,15 @@ fun Cart(onNavigateRoute: (String) -> Unit) {
     fun removeItem(product: Product) {
         cart.removeItem(product)
         viewContents.value = HashMap(ShoppingCart.getInstance(context).contents)
+        badgeQuantity.value = cart.getUniqueItemCount()
     }
+
 
 
 
     Scaffold (
         topBar = { EcommerceTopAppBar(title = "Cart") },
-        bottomBar = { EcommerceBottomAppBar("home/cart", onNavigateRoute) }
+        bottomBar = { EcommerceBottomAppBar("home/cart", onNavigateRoute, badgeQuantity.value) }
     ) {
             paddingValues ->
         Column (

@@ -26,11 +26,9 @@ import io.ionic.portalsecommerce.ui.theme.PortalsEcommerceTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Unit) {
+fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Unit, quantity: Int = ShoppingCart.getInstance(LocalContext.current).getUniqueItemCount() ) {
     val context = LocalContext.current
-
-    val cart = ShoppingCart.getInstance(context).getCart()!!
-
+    
     fun onClick (route: String){
         onNavigateRoute(route)
     }
@@ -46,9 +44,8 @@ fun EcommerceBottomAppBar(currentRoute: String, onNavigateRoute: (String) -> Uni
         NavigationBarItem(
             icon = {
                         BadgedBox(badge = {
-                            val itemCount = ShoppingCart.getInstance(context).getUniqueItemCount()
-                            if(itemCount > 0) {
-                                Badge{Text(text = itemCount.toString())}
+                            if(quantity > 0) {
+                                Badge{Text(text = quantity.toString())}
                             }
                         }) {
                             Icon(Icons.Filled.ShoppingCart, contentDescription = "Cart")
